@@ -1,5 +1,3 @@
-WordPress plugin to add food in menu for restaurant website
-
 # WordPress Plugin - Flour heart Menu
 
 > WordPress plugin for restaurant
