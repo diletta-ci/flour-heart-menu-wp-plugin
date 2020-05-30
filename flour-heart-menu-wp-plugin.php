@@ -39,6 +39,10 @@ class FlourHeartMenuPlugin
         add_action( 'init', array( $this, 'custom_post_type') );
     }
 
+    function register() {
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ));
+    }
+
     function activate() {
         $this->custom_post_type();
 
@@ -52,10 +56,16 @@ class FlourHeartMenuPlugin
     function custom_post_type() {
         register_post_type( 'menu', ['public' => true, 'label' => 'Menu'] );
     }
+
+    function enqueue() {
+        wp_enqueue_style( 'flourHeartMenuStyle', plugins_url( '/assets/style.css', __FILE__ ) );
+        wp_enqueue_script( 'flourHeartMenuScript', plugins_url( '/assets/script.js', __FILE__ ) );
+    }
 }
 
 if ( class_exists( 'FlourHeartMenuPlugin' ) ) {
     $flourHeartMenuPlugin = new FlourHeartMenuPlugin();
+    $flourHeartMenuPlugin->register();
 }
 
 // activation
