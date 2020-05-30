@@ -33,43 +33,41 @@ Copyright 2005-2015 Automattic, Inc.
 
 defined( 'ABSPATH' ) or die( 'Hey, what are you doing here? You silly human!' );
 
-class FlourHeartMenuPlugin
-{
-    function __construct() {
-        add_action( 'init', array( $this, 'custom_post_type') );
-    }
+if ( !class_exists('FlourHeartMenuPlugin') ) {
 
-    function register() {
-        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ));
-    }
+    class FlourHeartMenuPlugin
+    {    
+        function register() {
+            add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ));
+        }
 
-    function activate() {
-        $this->custom_post_type();
+        function create_post_type() {
+            add_action( 'init', array( $this, 'custom_post_type') );
+        }      
+    
+        function custom_post_type() {
+            register_post_type( 'menu', ['public' => true, 'label' => 'Menu'] );
+        }
+    
+        function enqueue() {
+            wp_enqueue_style( 'flourHeartMenuStyle', plugins_url( '/assets/style.css', __FILE__ ) );
+            wp_enqueue_script( 'flourHeartMenuScript', plugins_url( '/assets/script.js', __FILE__ ) );
+        }
 
-        flush_rewrite_rules();
+        function activate() {
+            require_once plugin_dir_path( __FILE__ ) . 'inc/flour-heart-menu-plugin-activate.php';
+            FlourHeartMenuPluginActivate::activate();
+        }
     }
     
-    function deactivate() {
-        flush_rewrite_rules();
-    }
-
-    function custom_post_type() {
-        register_post_type( 'menu', ['public' => true, 'label' => 'Menu'] );
-    }
-
-    function enqueue() {
-        wp_enqueue_style( 'flourHeartMenuStyle', plugins_url( '/assets/style.css', __FILE__ ) );
-        wp_enqueue_script( 'flourHeartMenuScript', plugins_url( '/assets/script.js', __FILE__ ) );
-    }
-}
-
-if ( class_exists( 'FlourHeartMenuPlugin' ) ) {
     $flourHeartMenuPlugin = new FlourHeartMenuPlugin();
     $flourHeartMenuPlugin->register();
+    $flourHeartMenuPlugin->create_post_type();
+    
+    // activation
+    register_activation_hook( __FILE__, array( $flourHeartMenuPlugin, 'activate' ) );
+    
+    // deactivation
+    require_once plugin_dir_path( __FILE__ ) . 'inc/flour-heart-menu-plugin-deactivate.php';
+    register_deactivation_hook( __FILE__, array( 'FlourHeartMenuPluginDeactivate', 'deactivate' ) );
 }
-
-// activation
-register_activation_hook( __FILE__, array( $flourHeartMenuPlugin, 'activate' ) );
-
-// deactivation
-register_deactivation_hook( __FILE__, array( $flourHeartMenuPlugin, 'deactivate' ) );
