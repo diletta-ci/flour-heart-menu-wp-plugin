@@ -32,3 +32,30 @@ Copyright 2005-2015 Automattic, Inc.
 */
 
 defined( 'ABSPATH' ) or die( 'Hey, what are you doing here? You silly human!' );
+
+class FlourHeartMenuPlugin
+{
+    function activate() {
+        
+    }
+
+    function deactivate() {
+
+    }
+
+    function uninstall() {
+
+    }
+}
+
+if ( class_exists( 'FlourHeartMenuPlugin' ) ) {
+    $flourHeartMenuPlugin = new FlourHeartMenuPlugin();
+}
+
+// activation
+register_activation_hook( __FILE__, array( $flourHeartMenuPlugin, 'activate' ) );
+
+// deactivation
+register_deactivation_hook( __FILE__, array( $flourHeartMenuPlugin, 'deactivate' ) );
+
+// uninstall
