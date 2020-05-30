@@ -49,10 +49,6 @@ class FlourHeartMenuPlugin
         flush_rewrite_rules();
     }
 
-    function uninstall() {
-
-    }
-
     function custom_post_type() {
         register_post_type( 'menu', ['public' => true, 'label' => 'Menu'] );
     }
@@ -67,5 +63,3 @@ register_activation_hook( __FILE__, array( $flourHeartMenuPlugin, 'activate' ) )
 
 // deactivation
 register_deactivation_hook( __FILE__, array( $flourHeartMenuPlugin, 'deactivate' ) );
-
-// uninstall
