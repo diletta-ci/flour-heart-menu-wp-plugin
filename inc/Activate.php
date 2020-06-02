@@ -2,10 +2,11 @@
 /**
  * @package Flour heart menu wp plugin activate
  */
+namespace Inc;
 
-class FlourHeartMenuPluginActivate 
+class Activate 
 {
-    public static function activate() {
+    public static function activateMethod() {
         flush_rewrite_rules();
     }
 }

@@ -33,6 +33,13 @@ Copyright 2005-2015 Automattic, Inc.
 
 defined( 'ABSPATH' ) or die( 'Hey, what are you doing here? You silly human!' );
 
+if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
+    require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+}
+
+use Inc\Activate;
+use Inc\Deactivate;
+
 if ( !class_exists('FlourHeartMenuPlugin') ) {
 
     class FlourHeartMenuPlugin
@@ -81,8 +88,7 @@ if ( !class_exists('FlourHeartMenuPlugin') ) {
         }
 
         function activate() {
-            require_once plugin_dir_path( __FILE__ ) . 'inc/flour-heart-menu-plugin-activate.php';
-            FlourHeartMenuPluginActivate::activate();
+            Activate::activateMethod();
         }
     }
     
@@ -94,6 +100,5 @@ if ( !class_exists('FlourHeartMenuPlugin') ) {
     register_activation_hook( __FILE__, array( $flourHeartMenuPlugin, 'activate' ) );
     
     // deactivation
-    require_once plugin_dir_path( __FILE__ ) . 'inc/flour-heart-menu-plugin-deactivate.php';
-    register_deactivation_hook( __FILE__, array( 'FlourHeartMenuPluginDeactivate', 'deactivate' ) );
+    register_deactivation_hook( __FILE__, array( 'Deactivate', 'deactivateMethod' ) );
 }

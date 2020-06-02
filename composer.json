@@ -1,0 +1,17 @@
+{
+    "name": "diletta/flour-heart-menu-wp-plugin",
+    "description": "Menu plugin for restaurant",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Diletta Cala' Impirotta",
+            "email": "giodidev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": { "Inc\\": "./inc" }
+    }
+}

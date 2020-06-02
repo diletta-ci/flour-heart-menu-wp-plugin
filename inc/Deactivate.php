@@ -3,9 +3,9 @@
  * @package Flour heart menu wp plugin deactivate
  */
 
-class FlourHeartMenuPluginDeactivate 
+class Deactivate 
 {
-    public static function deactivate() {
+    public static function deactivateMethod() {
         flush_rewrite_rules();
     }
 }
