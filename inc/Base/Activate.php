@@ -2,7 +2,7 @@
 /**
  * @package Flour heart menu wp plugin activate
  */
-namespace Inc;
+namespace Inc\Base;
 
 class Activate 
 {

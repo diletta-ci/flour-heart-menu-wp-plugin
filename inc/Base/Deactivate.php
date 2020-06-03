@@ -2,6 +2,7 @@
 /**
  * @package Flour heart menu wp plugin deactivate
  */
+namespace Inc\Base;
 
 class Deactivate 
 {
