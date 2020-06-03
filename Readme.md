@@ -1,4 +1,4 @@
-# WordPress Plugin - Flour heart Menu
+# WordPress Plugin - Flour Heart Menu
 
 > WordPress plugin for restaurant
 
