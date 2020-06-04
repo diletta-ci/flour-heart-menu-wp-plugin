@@ -21,6 +21,10 @@ class Admin
 
         $this->setPages();
         $this->setSubPages();
+        
+        $this->setSettings();
+        $this->setSections();
+        $this->setFields();
 
         $this->settings->addPages( $this->pages )->withSubPage( 'Dashboard' )->addSubPages( $this->sub_pages )->register();
     }
@@ -60,5 +64,51 @@ class Admin
                 'callback' => array( $this->callbacks, 'adminDinner' ),
             )
         );
+    }
+
+    public function setSettings()
+    {
+        $args = array(
+            array(
+                'option_group' => 'flour_heart_options_group',
+                'option_name' => 'text_example',
+                'callback' => array( $this->callbacks, 'flourHeartOptionGroup' )
+            )
+        );
+
+        $this->settings->setSettings( $args );
+    }
+    
+    public function setSections()
+    {
+        $args = array(
+            array(
+                'id' => 'flour_heart_admin_index',
+                'title' => 'Settings',
+                'callback' => array( $this->callbacks, 'flourHeartAdminSection' ),
+                'page' => 'flour_heart_menu_plugin'
+            )
+        );
+
+        $this->settings->setSections( $args );
+    }
+    
+    public function setFields()
+    {
+        $args = array(
+            array(
+                'id' => 'text_example',
+                'title' => 'Text example',
+                'callback' => array( $this->callbacks, 'flourHeartTextExample' ),
+                'page' => 'flour_heart_menu_plugin',
+                'section' => 'flour_heart_admin_index',
+                'args' => array(
+                    'label_for' => 'text_example',
+                    'class' => 'example-class'
+                )
+            )
+        );
+
+        $this->settings->setFields( $args );
     }
 }

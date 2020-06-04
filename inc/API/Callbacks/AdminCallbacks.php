@@ -20,4 +20,21 @@ class AdminCallbacks
     {
         return require_once(PLUGIN_PATH . 'templates/dinner.php');
     }
+
+    public function flourHeartOptionGroup( $input ) 
+    {
+        return $input;
+    }
+
+    public function flourHeartAdminSection() 
+    {
+        echo 'Check this beautiful section!';
+    }
+    
+    public function flourHeartTextExample() 
+    {
+        $value = esc_attr( get_option( 'text_example' ) );
+
+        echo '<input type="text" class="regular-text" name="text_example" value="' . $value . '" placeholder="Write something here!">';
+    }
 }
