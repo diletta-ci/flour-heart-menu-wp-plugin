@@ -71,8 +71,12 @@ class Admin
         $args = array(
             array(
                 'option_group' => 'flour_heart_options_group',
-                'option_name' => 'text_example',
+                'option_name' => 'menu_name',
                 'callback' => array( $this->callbacks, 'flourHeartOptionGroup' )
+            ),
+            array(
+                'option_group' => 'flour_heart_options_group',
+                'option_name' => 'menu_type',
             )
         );
 
@@ -97,14 +101,25 @@ class Admin
     {
         $args = array(
             array(
-                'id' => 'text_example',
-                'title' => 'Text example',
-                'callback' => array( $this->callbacks, 'flourHeartTextExample' ),
+                'id' => 'menu_name',
+                'title' => 'Menu name',
+                'callback' => array( $this->callbacks, 'flourHeartMenuName' ),
                 'page' => 'flour_heart_menu_plugin',
                 'section' => 'flour_heart_admin_index',
                 'args' => array(
-                    'label_for' => 'text_example',
-                    'class' => 'example-class'
+                    'label_for' => 'menu_name',
+                    'class' => 'menu-name'
+                )
+                ),
+            array(
+                'id' => 'menu_type',
+                'title' => 'Menu type',
+                'callback' => array( $this->callbacks, 'flourHeartMenuType' ),
+                'page' => 'flour_heart_menu_plugin',
+                'section' => 'flour_heart_admin_index',
+                'args' => array(
+                    'label_for' => 'menu_type',
+                    'class' => 'menu-type'
                 )
             )
         );

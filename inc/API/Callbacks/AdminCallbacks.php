@@ -28,13 +28,21 @@ class AdminCallbacks
 
     public function flourHeartAdminSection() 
     {
-        echo 'Check this beautiful section!';
+        echo 'My menu basic settings';
     }
     
-    public function flourHeartTextExample() 
+    public function flourHeartMenuName() 
     {
-        $value = esc_attr( get_option( 'text_example' ) );
+        $value = esc_attr( get_option( 'menu_name' ) );
 
-        echo '<input type="text" class="regular-text" name="text_example" value="' . $value . '" placeholder="Write something here!">';
+        echo '<input type="text" class="regular-text" name="menu_name" value="' . $value . '" placeholder="Special Christmas">';
+    }
+    
+    public function flourHeartMenuType()
+    {
+        $value = esc_attr( get_option( 'menu_type' ) );
+
+        echo '<input type="text" class="regular-text" name="menu_type" value="' . $value . '" placeholder="Vegetarian and vegan">';
+
     }
 }
