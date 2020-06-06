@@ -20,16 +20,6 @@ class AdminCallbacks
     {
         return require_once(PLUGIN_PATH . 'templates/dinner.php');
     }
-
-    public function flourHeartOptionGroup( $input ) 
-    {
-        return $input;
-    }
-
-    public function flourHeartAdminSection() 
-    {
-        echo 'My menu basic settings';
-    }
     
     public function flourHeartMenuName() 
     {

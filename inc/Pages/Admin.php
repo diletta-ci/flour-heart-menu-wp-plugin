@@ -6,11 +6,13 @@ namespace Inc\Pages;
 
 use \Inc\API\SettingsAPI;
 use \Inc\API\Callbacks\AdminCallbacks;
+use \Inc\API\Callbacks\MenuSettingsCallbacks;
 
 class Admin
 {
     public $settings;
     public $callbacks;
+    public $menu_settings_callbacks;
     public $pages = array();
     public $sub_pages = array();
 
@@ -18,6 +20,7 @@ class Admin
     {
         $this->settings = new SettingsAPI();
         $this->callbacks = new AdminCallbacks();
+        $this->menu_settings_callbacks = new MenuSettingsCallbacks();
 
         $this->setPages();
         $this->setSubPages();
@@ -70,13 +73,19 @@ class Admin
     {
         $args = array(
             array(
-                'option_group' => 'flour_heart_options_group',
-                'option_name' => 'menu_name',
-                'callback' => array( $this->callbacks, 'flourHeartOptionGroup' )
+                'option_group' => 'flour_heart_settings',
+                'option_name' => 'breakfast',
+                'callback' => array( $this->menu_settings_callbacks, 'menuSettings' )
             ),
             array(
-                'option_group' => 'flour_heart_options_group',
-                'option_name' => 'menu_type',
+                'option_group' => 'flour_heart_settings',
+                'option_name' => 'lunch',
+                'callback' => array( $this->menu_settings_callbacks, 'menuSettings' )
+            ),
+            array(
+                'option_group' => 'flour_heart_settings',
+                'option_name' => 'dinner',
+                'callback' => array( $this->menu_settings_callbacks, 'menuSettings' )
             )
         );
 
@@ -88,8 +97,8 @@ class Admin
         $args = array(
             array(
                 'id' => 'flour_heart_admin_index',
-                'title' => 'Settings',
-                'callback' => array( $this->callbacks, 'flourHeartAdminSection' ),
+                'title' => 'Settings Manager',
+                'callback' => array( $this->menu_settings_callbacks, 'flourHeartAdminSection' ),
                 'page' => 'flour_heart_menu_plugin'
             )
         );
@@ -101,25 +110,36 @@ class Admin
     {
         $args = array(
             array(
-                'id' => 'menu_name',
-                'title' => 'Menu name',
-                'callback' => array( $this->callbacks, 'flourHeartMenuName' ),
+                'id' => 'breakfast',
+                'title' => 'Breakfast',
+                'callback' => array( $this->menu_settings_callbacks, 'checkboxField' ),
                 'page' => 'flour_heart_menu_plugin',
                 'section' => 'flour_heart_admin_index',
                 'args' => array(
-                    'label_for' => 'menu_name',
-                    'class' => 'menu-name'
+                    'label_for' => 'breakfast',
+                    'class' => 'menu-breakfast ui-toggle'
                 )
-                ),
+            ),
             array(
-                'id' => 'menu_type',
-                'title' => 'Menu type',
-                'callback' => array( $this->callbacks, 'flourHeartMenuType' ),
+                'id' => 'lunch',
+                'title' => 'Lunch',
+                'callback' => array( $this->menu_settings_callbacks, 'checkboxField' ),
                 'page' => 'flour_heart_menu_plugin',
                 'section' => 'flour_heart_admin_index',
                 'args' => array(
-                    'label_for' => 'menu_type',
-                    'class' => 'menu-type'
+                    'label_for' => 'lunch',
+                    'class' => 'menu-lunch ui-toggle'
+                )
+            ),
+            array(
+                'id' => 'dinner',
+                'title' => 'Dinner',
+                'callback' => array( $this->menu_settings_callbacks, 'checkboxField' ),
+                'page' => 'flour_heart_menu_plugin',
+                'section' => 'flour_heart_admin_index',
+                'args' => array(
+                    'label_for' => 'dinner',
+                    'class' => 'menu-dinner ui-toggle'
                 )
             )
         );
