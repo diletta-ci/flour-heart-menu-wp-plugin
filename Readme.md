@@ -24,3 +24,5 @@ To change the composer auto-load files for psr-4 (currently set as **Inc**), cha
 ```terminal
 composer dump-autoload
 ```
+
+[Contribution guidelines for this project - Alecaddd tutorial](https://github.com/Alecaddd/WordPressPlugin101)

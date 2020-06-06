@@ -14,7 +14,7 @@
 
             <form method="post" action="options.php">
                 <?php
-                    settings_fields( 'flour_heart_options_group' );
+                    settings_fields( 'flour_heart_settings' );
                     do_settings_sections( 'flour_heart_menu_plugin' );
                     submit_button();
                 ?>

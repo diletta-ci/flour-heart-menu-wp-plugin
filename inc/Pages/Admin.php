@@ -6,18 +6,31 @@ namespace Inc\Pages;
 
 use \Inc\API\SettingsAPI;
 use \Inc\API\Callbacks\AdminCallbacks;
+use \Inc\API\Callbacks\MenuSettingsCallbacks;
 
 class Admin
 {
     public $settings;
     public $callbacks;
+    public $menu_settings_callbacks;
     public $pages = array();
     public $sub_pages = array();
-
+    public $menu_settings = array();
+    
     public function register() 
     {
         $this->settings = new SettingsAPI();
         $this->callbacks = new AdminCallbacks();
+        $this->menu_settings_callbacks = new MenuSettingsCallbacks();
+
+        /**
+         * Define checkboxes of the menu settings
+         */
+        $this->menu_settings = array(
+            'breakfast' => 'Activate Breakfast Menu',
+            'lunch' => 'Activate Lunch Menu',
+            'dinner' => 'Activate Dinner Menu'
+        );
 
         $this->setPages();
         $this->setSubPages();
@@ -66,19 +79,21 @@ class Admin
         );
     }
 
+    /**
+     * Implement form group of the menu setting checkboxes 
+     * based on menu_settings array()
+     */
     public function setSettings()
     {
-        $args = array(
-            array(
-                'option_group' => 'flour_heart_options_group',
-                'option_name' => 'menu_name',
-                'callback' => array( $this->callbacks, 'flourHeartOptionGroup' )
-            ),
-            array(
-                'option_group' => 'flour_heart_options_group',
-                'option_name' => 'menu_type',
-            )
-        );
+        $args = array();
+
+        foreach ($this->menu_settings as $key => $value) {
+            $args[] = array(
+                'option_group' => 'flour_heart_settings',
+                'option_name' => $key,
+                'callback' => array( $this->menu_settings_callbacks, 'menuSettings' )
+            );
+        }
 
         $this->settings->setSettings( $args );
     }
@@ -88,8 +103,8 @@ class Admin
         $args = array(
             array(
                 'id' => 'flour_heart_admin_index',
-                'title' => 'Settings',
-                'callback' => array( $this->callbacks, 'flourHeartAdminSection' ),
+                'title' => 'Settings Manager',
+                'callback' => array( $this->menu_settings_callbacks, 'flourHeartAdminSection' ),
                 'page' => 'flour_heart_menu_plugin'
             )
         );
@@ -97,32 +112,27 @@ class Admin
         $this->settings->setSections( $args );
     }
     
+    /**
+     * Set all the fields on the form menu setting
+     * based on menu_settings array()
+     */
     public function setFields()
     {
-        $args = array(
-            array(
-                'id' => 'menu_name',
-                'title' => 'Menu name',
-                'callback' => array( $this->callbacks, 'flourHeartMenuName' ),
+        $args = array();
+
+        foreach ( $this->menu_settings as $key => $value ) {
+            $args[] = array(
+                'id' => $key,
+                'title' => $value,
+                'callback' => array( $this->menu_settings_callbacks, 'checkboxField' ),
                 'page' => 'flour_heart_menu_plugin',
                 'section' => 'flour_heart_admin_index',
                 'args' => array(
-                    'label_for' => 'menu_name',
-                    'class' => 'menu-name'
+                    'label_for' => $key,
+                    'class' => "menu-$key"
                 )
-                ),
-            array(
-                'id' => 'menu_type',
-                'title' => 'Menu type',
-                'callback' => array( $this->callbacks, 'flourHeartMenuType' ),
-                'page' => 'flour_heart_menu_plugin',
-                'section' => 'flour_heart_admin_index',
-                'args' => array(
-                    'label_for' => 'menu_type',
-                    'class' => 'menu-type'
-                )
-            )
-        );
+            );
+        }
 
         $this->settings->setFields( $args );
     }
