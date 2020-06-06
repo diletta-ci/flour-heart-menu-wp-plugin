@@ -15,12 +15,22 @@ class Admin
     public $menu_settings_callbacks;
     public $pages = array();
     public $sub_pages = array();
-
+    public $menu_settings = array();
+    
     public function register() 
     {
         $this->settings = new SettingsAPI();
         $this->callbacks = new AdminCallbacks();
         $this->menu_settings_callbacks = new MenuSettingsCallbacks();
+
+        /**
+         * Define checkboxes of the menu settings
+         */
+        $this->menu_settings = array(
+            'breakfast' => 'Activate Breakfast Menu',
+            'lunch' => 'Activate Lunch Menu',
+            'dinner' => 'Activate Dinner Menu'
+        );
 
         $this->setPages();
         $this->setSubPages();
@@ -69,25 +79,21 @@ class Admin
         );
     }
 
+    /**
+     * Implement form group of the menu setting checkboxes 
+     * based on menu_settings array()
+     */
     public function setSettings()
     {
-        $args = array(
-            array(
+        $args = array();
+
+        foreach ($this->menu_settings as $key => $value) {
+            $args[] = array(
                 'option_group' => 'flour_heart_settings',
-                'option_name' => 'breakfast',
+                'option_name' => $key,
                 'callback' => array( $this->menu_settings_callbacks, 'menuSettings' )
-            ),
-            array(
-                'option_group' => 'flour_heart_settings',
-                'option_name' => 'lunch',
-                'callback' => array( $this->menu_settings_callbacks, 'menuSettings' )
-            ),
-            array(
-                'option_group' => 'flour_heart_settings',
-                'option_name' => 'dinner',
-                'callback' => array( $this->menu_settings_callbacks, 'menuSettings' )
-            )
-        );
+            );
+        }
 
         $this->settings->setSettings( $args );
     }
@@ -106,43 +112,27 @@ class Admin
         $this->settings->setSections( $args );
     }
     
+    /**
+     * Set all the fields on the form menu setting
+     * based on menu_settings array()
+     */
     public function setFields()
     {
-        $args = array(
-            array(
-                'id' => 'breakfast',
-                'title' => 'Breakfast',
+        $args = array();
+
+        foreach ( $this->menu_settings as $key => $value ) {
+            $args[] = array(
+                'id' => $key,
+                'title' => $value,
                 'callback' => array( $this->menu_settings_callbacks, 'checkboxField' ),
                 'page' => 'flour_heart_menu_plugin',
                 'section' => 'flour_heart_admin_index',
                 'args' => array(
-                    'label_for' => 'breakfast',
-                    'class' => 'menu-breakfast ui-toggle'
+                    'label_for' => $key,
+                    'class' => "menu-$key"
                 )
-            ),
-            array(
-                'id' => 'lunch',
-                'title' => 'Lunch',
-                'callback' => array( $this->menu_settings_callbacks, 'checkboxField' ),
-                'page' => 'flour_heart_menu_plugin',
-                'section' => 'flour_heart_admin_index',
-                'args' => array(
-                    'label_for' => 'lunch',
-                    'class' => 'menu-lunch ui-toggle'
-                )
-            ),
-            array(
-                'id' => 'dinner',
-                'title' => 'Dinner',
-                'callback' => array( $this->menu_settings_callbacks, 'checkboxField' ),
-                'page' => 'flour_heart_menu_plugin',
-                'section' => 'flour_heart_admin_index',
-                'args' => array(
-                    'label_for' => 'dinner',
-                    'class' => 'menu-dinner ui-toggle'
-                )
-            )
-        );
+            );
+        }
 
         $this->settings->setFields( $args );
     }
