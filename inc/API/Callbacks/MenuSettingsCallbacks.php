@@ -6,12 +6,26 @@ namespace Inc\API\Callbacks;
 
 class MenuSettingsCallbacks
 {
+    public $menu_settings = array();
+
     /**
      * Check and store boolean value
      */
     public function menuSettings( $input ) 
     {
-        return ( isset( $input ) ? true : false );
+        $this->menu_settings = array(
+            'breakfast' => 'Activate Breakfast Menu',
+            'lunch' => 'Activate Lunch Menu',
+            'dinner' => 'Activate Dinner Menu'
+        );
+
+        $output = array();
+
+        foreach ( $this->menu_settings as $key => $value) {
+            $output[$key] = ( isset( $input[$key] ) ? true : false );
+        }
+
+        return $output;
     }
 
     /**
@@ -27,10 +41,12 @@ class MenuSettingsCallbacks
      */
     public function checkboxField( $args )
     {
-		$name = $args['label_for'];
-		$classes = $args['class'];
-        $checkbox = get_option( $name );
+        $name = $args['label_for'];
+        $classes = $args['class'];
+        $option_name = $args['option_name'];
+        $checkbox = get_option( $option_name );
         
-		echo '<input type="checkbox" name="' . $name . '" value="1" class="' . $classes . '" ' . ($checkbox ? 'checked' : '') . '>';
+        echo '<div class="' . $classes . '"><input type="checkbox" id="' . $name . '" name="' . $option_name . '[' . $name . ']" value="1" class="" ' . ($checkbox[$name] ? 'checked' : '') . '><label for="' . $name . '"><div></div></label></div>';
+		
 	}
 }

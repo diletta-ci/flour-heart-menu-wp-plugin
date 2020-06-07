@@ -85,15 +85,13 @@ class Admin
      */
     public function setSettings()
     {
-        $args = array();
-
-        foreach ($this->menu_settings as $key => $value) {
-            $args[] = array(
+        $args = array(
+            array(
                 'option_group' => 'flour_heart_settings',
-                'option_name' => $key,
+                'option_name' => 'flour_heart_menu_plugin',
                 'callback' => array( $this->menu_settings_callbacks, 'menuSettings' )
-            );
-        }
+            )
+        );
 
         $this->settings->setSettings( $args );
     }
@@ -128,8 +126,9 @@ class Admin
                 'page' => 'flour_heart_menu_plugin',
                 'section' => 'flour_heart_admin_index',
                 'args' => array(
+                    'option_name' => 'flour_heart_menu_plugin',
                     'label_for' => $key,
-                    'class' => "menu-$key"
+                    'class' => "menu-$key",
                 )
             );
         }
